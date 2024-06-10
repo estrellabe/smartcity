@@ -21,3 +21,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Borrar antes de entregar. Solo para uso personal:
+COMENTARIOS.md
+Comentarios hechos en las diferentes partes del código.
+- Revisar todos los ToDo!
+
