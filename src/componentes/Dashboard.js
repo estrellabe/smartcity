@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from "react";
-import { useHistory } from "react-router-dom";
-import jwtDecode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const Dashboard = () => {
     const [user, setUser] = useState({});
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const token = new URLSearchParams(window.location.search).get("token");
@@ -18,15 +18,15 @@ const Dashboard = () => {
                 const decodedUser = jwtDecode(savedToken);
                 setUser(decodedUser);
             } else {
-                history.push("/login");
+                navigate.push("/login");
             }
         }
-    }, [history]);
+    }, [navigate]);
 
     const logout = () => {
         localStorage.removeItem("token");
         setUser({});
-        history.push("/login");
+        navigate.push("/login");
     };
 
     if (!user){

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Row, Col, Card, CardTitle, CardText, Media } from "reactstrap";
+import { Card, CardTitle, CardText, Media } from "reactstrap";
 import { GoogleLogin } from "@react-oauth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import jwtDecode from "jwt-decode";
-import config from "../config";
-import MyImgLogin from "../img/login.png";
+import { jwtDecode } from "jwt-decode";
+import config from "./Config";
+import loginImage from "../img/login.png";
 import axios from "axios";
 
 var imgStyle = {
@@ -45,28 +45,19 @@ const Login = () => {
       };
     
       return (
-        <Container>
-          <Row>
-            <Col>
-              <Card
-                inverse
-                body
-                className="text-center"
-                style={{ backgroundColor: '#000', borderColor: '#000' }}
-              >
-                <CardTitle tag="h5">Welcome to SmartCity</CardTitle>
-                <CardText>React-based SmartCity project</CardText>
+        <div style={{ backgroundColor: "navy", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <Card style={{ width: '300px', padding: '20px', textAlign: 'center' }}>
+                <CardTitle tag="h4">Iniciar sesión</CardTitle>
+                <CardText>Bienvenido a City+: app basada en React</CardText>
+                <Media style={imgStyle} object src={loginImage} alt="Login" />
                 <CardText>
                   <GoogleOAuthProvider clientId={config.clientID}>
                     <GoogleLogin auto_select onSuccess={onSuccess} onError={onError} useOneTap />
                   </GoogleOAuthProvider>
                   {loginMessage}
                 </CardText>
-                <Media style={imgStyle} object src={MyImgLogin} alt="Login" />
-              </Card>
-            </Col>
-          </Row>
-        </Container>
+          </Card>   
+      </div>
       );
     };
     
