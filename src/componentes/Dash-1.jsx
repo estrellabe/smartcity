@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
@@ -18,7 +18,7 @@ const Dashboard = () => {
                 const decodedUser = jwtDecode(savedToken);
                 setUser(decodedUser);
             } else {
-                navigate.push("/login");
+                navigate("/login");
             }
         }
     }, [navigate]);
@@ -26,7 +26,7 @@ const Dashboard = () => {
     const logout = () => {
         localStorage.removeItem("token");
         setUser({});
-        navigate.push("/login");
+        navigate("/login"); // ToDo: Cambiar "/login" por la ruta siguiente
     };
 
     if (!user){

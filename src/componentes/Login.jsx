@@ -7,6 +7,8 @@ import { jwtDecode } from "jwt-decode";
 import config from "./Config";
 import logo from "../img/logoReact.png";
 import axios from "axios";
+import Logout from "./Logout";
+import Atras from "./Atras";
 
 var imgStyle = {
     width: "100%",
@@ -46,6 +48,14 @@ const Login = () => {
     
       return (
         <div style={{ backgroundColor: "#f8f9fa", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+          {/*Botón de cerrar sesión*/}
+          <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
+            <Logout />
+          </div>
+          {/* Botón atrás */}
+          <div style={{ position: 'absolute', top: '10px', left: '10px' }}>
+                <Atras />
+            </div>
           <Card style={{ width: '300px', padding: '20px', textAlign: 'center' }}>
                 <CardTitle tag="h4">Iniciar sesión</CardTitle>
                 <CardText>City+ es una app basada en React</CardText>
@@ -54,9 +64,9 @@ const Login = () => {
                   <GoogleOAuthProvider clientId={config.clientID}>
                     <GoogleLogin auto_select onSuccess={onSuccess} onError={onError} useOneTap />
                   </GoogleOAuthProvider>
-                  {loginMessage}
+                  {loginMessage && <p>{loginMessage}</p>}
                 </CardText>
-          </Card>   
+          </Card>
       </div>
       );
     };
