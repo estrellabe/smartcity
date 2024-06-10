@@ -5,7 +5,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import config from "./Config";
-import loginImage from "../img/login.png";
+import logo from "../img/logoReact.png";
 import axios from "axios";
 
 var imgStyle = {
@@ -45,11 +45,11 @@ const Login = () => {
       };
     
       return (
-        <div style={{ backgroundColor: "navy", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <div style={{ backgroundColor: "#f8f9fa", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
           <Card style={{ width: '300px', padding: '20px', textAlign: 'center' }}>
                 <CardTitle tag="h4">Iniciar sesión</CardTitle>
                 <CardText>City+ es una app basada en React</CardText>
-                <Media style={imgStyle} object src={loginImage} alt="Login" />
+                <Media style={imgStyle} object src={logo} alt="Login" />
                 <CardText>
                   <GoogleOAuthProvider clientId={config.clientID}>
                     <GoogleLogin auto_select onSuccess={onSuccess} onError={onError} useOneTap />
