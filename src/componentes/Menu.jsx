@@ -4,8 +4,6 @@ import { Card, CardBody, CardTitle, CardText, Button, Row, Col } from "reactstra
 import userProfileImage from "../img/userProfile.png";
 import loginImage from "../img/login.png";
 import dashboardImage from "../img/dashboard.png";
-import Logout from "./Logout";
-import Atras from "./Atras";
 
 const Menu = () => {
     const navigate = useNavigate();
@@ -29,14 +27,6 @@ const Menu = () => {
 
     return (
         <div style={{ backgroundColor: "#f8f9fa", height: "100vh", padding: "20px" }}>
-            {/* Botón de cerrar sesión */}
-            <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
-                <Logout />
-            </div>
-            {/* Botón atrás */}
-            <div style={{ position: 'absolute', top: '10px', left: '10px' }}>
-                <Atras />
-            </div>
             <h2 className="text-center mb-4">Menu de City+</h2>
             <Row>
             <Col sm="4">
@@ -45,7 +35,7 @@ const Menu = () => {
                             <img alt="Login" src={loginImage} style={estilo_Imagen} />
                         </div>
                         <CardBody className="text-center">
-                            <CardTitle tag="h5">Iniciar Sesión</CardTitle>
+                            <CardTitle tag="h5">Iniciar sesión</CardTitle>
                             <CardText>Inicia sesión en tu cuenta.</CardText>
                             <Button color="warning" onClick={() => navigate('/login')}>Iniciar Sesión</Button>
                         </CardBody>
@@ -59,7 +49,7 @@ const Menu = () => {
                         <CardBody className="text-center">
                             <CardTitle tag="h5">Perfil de Usuario</CardTitle>
                             <CardText>Gestiona tu perfil de usuario.</CardText>
-                            <Button color="warning" onClick={() => navigate('/userprofile')}>Ir al Perfil</Button>
+                            <Button color="warning" onClick={() => navigate('/profile')}>Ver perfil de usuario</Button>
                         </CardBody>
                     </Card>
                 </Col>
@@ -71,7 +61,7 @@ const Menu = () => {
                         <CardBody className="text-center">
                             <CardTitle tag="h5">Dashboard</CardTitle>
                             <CardText>Accede al panel de control</CardText>
-                            <Button color="warning" onClick={() => navigate('/dashboard')}>Ir al Dashboard</Button>
+                            <Button color="warning" onClick={() => navigate('/dashboard')}>Ir al dashboard</Button>
                         </CardBody>
                     </Card>
                 </Col>
