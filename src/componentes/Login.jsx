@@ -48,7 +48,7 @@ const Login = () => {
         <div style={{ backgroundColor: "navy", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
           <Card style={{ width: '300px', padding: '20px', textAlign: 'center' }}>
                 <CardTitle tag="h4">Iniciar sesión</CardTitle>
-                <CardText>Bienvenido a City+: app basada en React</CardText>
+                <CardText>City+ es una app basada en React</CardText>
                 <Media style={imgStyle} object src={loginImage} alt="Login" />
                 <CardText>
                   <GoogleOAuthProvider clientId={config.clientID}>
