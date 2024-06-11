@@ -40,6 +40,10 @@ const Profile= () => {
     if (error) {
         return (
             <div style={{ backgroundColor: "#f8f9fa", height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                {/* Botón atrás */}
+                <div style={{ position: 'absolute', top: '10px', left: '10px' }}>
+                        <Atras />
+                </div>
                 <div style={{ marginBottom: "20px" }}>{error}</div>
                 {error === 'No se ha iniciado sesión' && (
                     <Button color="primary" onClick={() => navigate('/login')}>Ir a Login</Button>

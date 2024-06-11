@@ -48,14 +48,15 @@ const Login = () => {
     
       return (
         <div style={{ backgroundColor: "#f8f9fa", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-          {/*Botón de cerrar sesión*/}
+          {/*Botón de cerrar sesión*/
+          /* To-Do: Posible mejora = que solo aparezca una vez iniciada la sesión */}
           <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
             <Logout />
           </div>
           {/* Botón atrás */}
           <div style={{ position: 'absolute', top: '10px', left: '10px' }}>
                 <Atras />
-            </div>
+          </div>
           <Card style={{ width: '300px', padding: '20px', textAlign: 'center' }}>
                 <CardTitle tag="h4">Iniciar sesión</CardTitle>
                 <CardText>City+ es una app basada en React</CardText>

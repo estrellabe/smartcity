@@ -1,54 +1,73 @@
-import React, {useState, useEffect} from "react";
-import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
-import Logout from "./Logout";
-import Atras from "./Atras";
+import React from 'react';
+import { Card, CardTitle, Button, Container, Row, Col } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
+import airQualityImage from '../img/airQuality.png';
+import bicycleImage from '../img/bycicle.png'; 
+import populationImage from '../img/population.png';
+import acousticPollutionImage from '../img/acousticPollution.png';
+import wasteBinsImage from '../img/wastebins.png';
+import penaltyImage from '../img/penalty.png';
+import pedestrianImage from '../img/pedestrians.png';
+import Atras from './Atras';
 
 const Dashboard = () => {
-    const [user, setUser] = useState({});
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const token = new URLSearchParams(window.location.search).get("token");
-        if (token) {
-            const decodedUser = jwtDecode(token);
-            setUser(decodedUser);
-            localStorage.setItem("token", token);
-        } else {
-            const savedToken = localStorage.getItem("token");
-            if (savedToken) {
-                const decodedUser = jwtDecode(savedToken);
-                setUser(decodedUser);
-            } else {
-                navigate("/login");
-            }
-        }
-    }, [navigate]);
-
-    const logout = () => {
-        localStorage.removeItem("token");
-        setUser({});
-        navigate("/menu");
+  const contenedor_Imagen = {
+    width: "150px%",
+    height: "150px",
+    borderRadius: "50%",
+    overflow: "hidden",
+    margin: "auto",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
     };
 
-    if (!user){
-        return <div>Cargando...</div>;
-    }
+    const estilo_Imagen = {
+        width: "70%",
+        height: "70%",
+        objectFit: "contain",
+    };
+
+    const estilo_Titulo = {
+        textAlign: "center",
+        marginBottom: "20px"
+    };
+
+    const cardsData = [
+        { title: 'Calidad del aire', image: airQualityImage, route: '/aire' },
+        { title: 'Disponibilidad de bicicletas', image: bicycleImage, route: '/bicicletas' },
+        { title: 'Censo', image: populationImage, route: '/censo' },
+        { title: 'Contaminación Acústica', image: acousticPollutionImage, route: '/acustica' },
+        { title: 'Contenedores', image: wasteBinsImage, route: '/contenedores' },
+        { title: 'Multas', image: penaltyImage, route: '/multas' },
+        { title: 'Pasos de peatones', image: pedestrianImage, route: '/peatones' },
+    ];
 
     return (
-        <div>
-            {/* Botón de cerrar sesión */}
-            <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
-                <Logout />
-            </div>
-            {/* Botón atrás */}
-            <div style={{ position: 'absolute', top: '10px', left: '10px' }}>
+    <Container>
+        <Row>
+            <Col>
                 <Atras />
-            </div>
-            <h1>¡Hola, {user.displayName}!</h1>
-            <button onClick={logout}>Cerrar sesión</button>
-        </div>
+            </Col>
+        </Row>
+        <Row>
+            <h1 className="text-center mb-4">Dashboard</h1>
+            {cardsData.map((card, index) => (
+                <Col sm="4" key={index} className="mb-4">
+                    <Card body>
+                    <div style={contenedor_Imagen}>
+                        <img src={card.image} alt={card.title} style={estilo_Imagen} />
+                    </div>
+                    <CardTitle tag="h5" className="mt-3" style={estilo_Titulo}>{card.title}</CardTitle>
+                    <Button color="primary" onClick={() => navigate(card.route)}>Ver más</Button>
+                    </Card>
+                </Col>
+                ))}
+        </Row>
+        </Container>
     );
-}
+};
 
 export default Dashboard;

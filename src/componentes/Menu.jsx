@@ -37,7 +37,7 @@ const Menu = () => {
                         <CardBody className="text-center">
                             <CardTitle tag="h5">Iniciar sesión</CardTitle>
                             <CardText>Inicia sesión en tu cuenta.</CardText>
-                            <Button color="warning" onClick={() => navigate('/login')}>Iniciar Sesión</Button>
+                            <Button color="primary" onClick={() => navigate('/login')}>Iniciar Sesión</Button>
                         </CardBody>
                     </Card>
                 </Col>
@@ -49,7 +49,7 @@ const Menu = () => {
                         <CardBody className="text-center">
                             <CardTitle tag="h5">Perfil de Usuario</CardTitle>
                             <CardText>Gestiona tu perfil de usuario.</CardText>
-                            <Button color="warning" onClick={() => navigate('/profile')}>Ver perfil de usuario</Button>
+                            <Button color="primary" onClick={() => navigate('/profile')}>Ver perfil de usuario</Button>
                         </CardBody>
                     </Card>
                 </Col>
@@ -61,7 +61,7 @@ const Menu = () => {
                         <CardBody className="text-center">
                             <CardTitle tag="h5">Dashboard</CardTitle>
                             <CardText>Accede al panel de control</CardText>
-                            <Button color="warning" onClick={() => navigate('/dashboard')}>Ir al dashboard</Button>
+                            <Button color="primary" onClick={() => navigate('/dashboard')}>Ir al dashboard</Button>
                         </CardBody>
                     </Card>
                 </Col>
