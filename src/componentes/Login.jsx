@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardTitle, CardText, Media } from "reactstrap";
 import { GoogleLogin } from "@react-oauth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import config from "./Config";
 import logo from "../img/logoReact.png";
 import axios from "axios";
