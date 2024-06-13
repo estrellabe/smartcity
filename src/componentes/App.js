@@ -4,13 +4,13 @@ import Login from "./Login";
 import Dashboard from "./Dashboard";
 import Menu from "./Menu";
 import Profile from "./Profile";
-import Aire from "./Aire";
-import Bicicletas from "./Bicicletas";
-import Censo from "./Censo";
-import ContaminacionAcustica from "./ContaminacionAcustica";
-import Contenedores from "./Contenedores";
-import Multas from "./Multas";
-import Peatones from "./Peatones";
+import Aire from "./datos/Aire";
+import Bicicletas from "./datos/Bicicletas";
+import Censo from "./datos/Censo";
+import ContaminacionAcustica from "./datos/ContaminacionAcustica";
+import Contenedores from "./datos/Contenedores";
+import Multas from "./datos/Multas";
+import Peatones from "./datos/Peatones";
 import '../App.css';
 
 
