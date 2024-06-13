@@ -6,7 +6,6 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import config from "../Config";
 import logo from "../img/logoReact.png";
-import axios from "axios";
 import Logout from "./Logout";
 import Atras from "./Atras";
 
@@ -15,26 +14,25 @@ var imgStyle = {
   height: "100%",
 };
 
-const axiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
 
 const Login = () => {
   const [loginMessage, setLoginMessage] = useState(null);
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false); //Estado de sesión
 
   const onSuccess = async (res) => {
     try {
-      const token = res.credential;
-      const user = jwtDecode(token);
-      sessionStorage.setItem('token', token);
-      sessionStorage.setItem('email', user.email);
-      sessionStorage.setItem('name', user.name);
-      await axiosInstance.post('/auth/google', { token });
-      navigate('/dashboard');
+      const user = jwtDecode(res.credential);
+      var email= user.email;
+      var name= user.name;
+      sessionStorage.setItem('email', email);
+      sessionStorage.setItem('name', name);
+      setLoginMessage('Has iniciado sesión');
+      setIsLoggedIn(true); //Actualizamos el estado de sesión
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 5000); //Redirigimos a la página de dashboard tras 5 segundos
+      
     } catch (error) {
       setLoginMessage('Error al iniciar sesión');
       console.error('Login Error:', error);
@@ -47,9 +45,11 @@ const Login = () => {
 
   return (
     <div style={{ backgroundColor: "#f8f9fa", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+      {isLoggedIn && (
       <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
         <Logout />
       </div>
+      )}
       <div style={{ position: 'absolute', top: '10px', left: '10px' }}>
         <Atras />
       </div>
