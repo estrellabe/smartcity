@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardTitle, CardText, Media } from "reactstrap";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import { Card, CardTitle, CardText, Media} from "reactstrap";
 import { GoogleLogin } from "@react-oauth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
@@ -9,16 +11,32 @@ import logo from "../img/logoReact.png";
 import Logout from "./Logout";
 import Atras from "./Atras";
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 var imgStyle = {
   width: "100%",
   height: "100%",
 };
 
 
+
 const Login = () => {
   const [loginMessage, setLoginMessage] = useState(null);
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false); //Estado de sesión
+
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+  
+    setOpen(false);
+  };
 
   const onSuccess = async (res) => {
     try {
@@ -27,11 +45,13 @@ const Login = () => {
       var name= user.name;
       sessionStorage.setItem('email', email);
       sessionStorage.setItem('name', name);
-      setLoginMessage('Has iniciado sesión');
       setIsLoggedIn(true); //Actualizamos el estado de sesión
-      setTimeout(() => {
-        navigate('/dashboard');
-      }, 5000); //Redirigimos a la página de dashboard tras 5 segundos
+      <Snackbar open={open} autoHideDuration={10000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          Has iniciado sesión
+        </Alert>
+      </Snackbar>
+      navigate('/dashboard'); //Redirigimos a la página de dashboard tras 5 segundos
       
     } catch (error) {
       setLoginMessage('Error al iniciar sesión');
