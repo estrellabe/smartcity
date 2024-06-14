@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Chart, registerables } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 
-// Registrar todos los componentes de Chart.js, incluidas las escalas de tiempo
+// Registro de las escalas de tiempo
 Chart.register(...registerables);
 
 const Aire = () => {
@@ -11,12 +11,13 @@ const Aire = () => {
   const [selectedMonth, setSelectedMonth] = useState(1);
   const chartRef = useRef(null);
 
+  // Función paraa obtener los datos del mes seleccionado
   const fetchData = async (month) => {
     try {
-      const response = await axios.get(`http://localhost:5000/aire/mes/${month}`);
+      const response = await axios.get(`http://localhost:5000/media/aire/mes/${month}`);
       const transformedData = response.data.map((entry) => ({
-        date: new Date(entry.ANO, entry.MES - 1, entry.DIA),
-        value: entry.H01,
+        date: new Date(2051, month - 1, entry._id),
+        value: entry.avgValue,
       }));
       setData(transformedData);
     } catch (error) {
@@ -28,6 +29,7 @@ const Aire = () => {
     fetchData(selectedMonth);
   }, [selectedMonth]);
 
+  // Usamos useMemo para evitar renderizados innecesarios
   const chartData = useMemo(() => {
     return {
       labels: data.map((entry) => entry.date),
@@ -43,43 +45,45 @@ const Aire = () => {
     };
   }, [data]);
 
-  const options = useMemo(() => {
-    return {
-      scales: {
-        x: {
-          type: 'time',
-          time: {
-            unit: 'day',
-            tooltipFormat: 'dd MMM yyyy',
-          },
-          title: {
-            display: true,
-            text: 'Días del Mes',
-          },
+  // Opciones del gráfico
+  // Opciones del gráfico
+  const options = useMemo(() => ({
+    scales: {
+      x: {
+        type: 'time',
+        time: {
+          unit: 'day',
+          tooltipFormat: 'dd MMM yyyy',
         },
-        y: {
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: 'Calidad del Aire',
-          },
+        title: {
+          display: true,
+          text: 'Días del Mes',
         },
       },
-    };
-  }, []);
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Calidad del Aire',
+        },
+      },
+    },
+  }), []);
 
   useEffect(() => {
+    const ctx = document.getElementById('aireChart').getContext('2d');
+
     if (chartRef.current) {
       chartRef.current.destroy();
     }
 
-    const ctx = document.getElementById('aireChart').getContext('2d');
     chartRef.current = new Chart(ctx, {
       type: 'line',
       data: chartData,
       options: options,
     });
 
+    // Limpiamos el gráfico al desmontar el componente
     return () => {
       if (chartRef.current) {
         chartRef.current.destroy();
@@ -87,6 +91,7 @@ const Aire = () => {
     };
   }, [chartData, options]);
 
+  // Función para manejar el cambio de mes
   const handleMonthChange = (event) => {
     setSelectedMonth(event.target.value);
   };
