@@ -2,21 +2,21 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import axios from 'axios';
 import { Chart, registerables } from 'chart.js';
 import 'chartjs-adapter-date-fns';
+import Atras from '../Atras';
 
-// Registro de las escalas de tiempo
+// Registrar todos los componentes de Chart.js, incluidas las escalas de tiempo
 Chart.register(...registerables);
 
 const Aire = () => {
   const [data, setData] = useState([]);
-  const [selectedMonth, setSelectedMonth] = useState(1);
   const chartRef = useRef(null);
 
-  // Función paraa obtener los datos del mes seleccionado
-  const fetchData = async (month) => {
+  // Función para obtener los datos anuales
+  const fetchAnnualData = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/media/aire/mes/${month}`);
+      const response = await axios.get('http://localhost:5000/aire/media/anual');
       const transformedData = response.data.map((entry) => ({
-        date: new Date(2051, month - 1, entry._id),
+        month: entry._id,
         value: entry.avgValue,
       }));
       setData(transformedData);
@@ -25,39 +25,27 @@ const Aire = () => {
     }
   };
 
-  useEffect(() => {
-    fetchData(selectedMonth);
-  }, [selectedMonth]);
+  // useMemo para evitar renderizados innecesarios
+  const chartData = useMemo(() => ({
+    labels: data.map((entry) => new Date(2051, entry.month - 1).toLocaleString('es-ES', { month: 'long' })),
+    datasets: [
+      {
+        label: 'Calidad del aire',
+        data: data.map((entry) => entry.value),
+        fill: false,
+        backgroundColor: 'blue',
+        borderColor: 'blue',
+      },
+    ],
+  }), [data]);
 
-  // Usamos useMemo para evitar renderizados innecesarios
-  const chartData = useMemo(() => {
-    return {
-      labels: data.map((entry) => entry.date),
-      datasets: [
-        {
-          label: 'Calidad del aire',
-          data: data.map((entry) => entry.value),
-          fill: false,
-          backgroundColor: 'blue',
-          borderColor: 'blue',
-        },
-      ],
-    };
-  }, [data]);
-
-  // Opciones del gráfico
   // Opciones del gráfico
   const options = useMemo(() => ({
     scales: {
       x: {
-        type: 'time',
-        time: {
-          unit: 'day',
-          tooltipFormat: 'dd MMM yyyy',
-        },
         title: {
           display: true,
-          text: 'Días del Mes',
+          text: 'Meses del Año',
         },
       },
       y: {
@@ -70,6 +58,12 @@ const Aire = () => {
     },
   }), []);
 
+  // Efecto para obtener los datos al cargar el componente
+  useEffect(() => {
+    fetchAnnualData();
+  }, []);
+
+  // Efecto para crear el gráfico
   useEffect(() => {
     const ctx = document.getElementById('aireChart').getContext('2d');
 
@@ -83,7 +77,7 @@ const Aire = () => {
       options: options,
     });
 
-    // Limpiamos el gráfico al desmontar el componente
+    // Cleanup function para destruir el gráfico cuando el componente se desmonta o el gráfico se actualiza
     return () => {
       if (chartRef.current) {
         chartRef.current.destroy();
@@ -91,33 +85,10 @@ const Aire = () => {
     };
   }, [chartData, options]);
 
-  // Función para manejar el cambio de mes
-  const handleMonthChange = (event) => {
-    setSelectedMonth(event.target.value);
-  };
-
   return (
     <div>
-      <h1>Calidad del Aire</h1>
-      <select 
-        id="monthSelect"
-        name="monthSelect"
-        value={selectedMonth} 
-        onChange={handleMonthChange}
-      >
-        <option value={1}>Enero</option>
-        <option value={2}>Febrero</option>
-        <option value={3}>Marzo</option>
-        <option value={4}>Abril</option>
-        <option value={5}>Mayo</option>
-        <option value={6}>Junio</option>
-        <option value={7}>Julio</option>
-        <option value={8}>Agosto</option>
-        <option value={9}>Septiembre</option>
-        <option value={10}>Octubre</option>
-        <option value={11}>Noviembre</option>
-        <option value={12}>Diciembre</option>
-      </select>
+      <Atras />
+      <h1 style={{ textAlign: 'center' }}>Calidad del Aire</h1>
       <canvas id="aireChart" width="400" height="400"></canvas>
     </div>
   );
