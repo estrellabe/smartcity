@@ -13,7 +13,6 @@ import Multas from "./datos/Multas";
 import Peatones from "./datos/Peatones";
 import '../App.css';
 
-
 function App() {
   return (
     <Router>

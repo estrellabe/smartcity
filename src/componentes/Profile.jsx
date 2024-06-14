@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Logout from './Logout'; // Botón de cerrar sesión
 import Atras from './Atras'; // Botón de volver atrás
 
-const Profile= () => {
+const Profile = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -20,7 +20,7 @@ const Profile= () => {
                 return;
             }
             try {
-                const response = await axios.get('http://localhost:3000/api/user/me', {
+                const response = await axios.get('http://localhost:3000/me', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -36,13 +36,13 @@ const Profile= () => {
     }, []);
 
     if (loading) return <div>Loading...</div>;
-    
+
     if (error) {
         return (
             <div style={{ backgroundColor: "#f8f9fa", height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
                 {/* Botón atrás */}
                 <div style={{ position: 'absolute', top: '10px', left: '10px' }}>
-                        <Atras />
+                    <Atras />
                 </div>
                 <div style={{ marginBottom: "20px" }}>{error}</div>
                 {error === 'No se ha iniciado sesión' && (
