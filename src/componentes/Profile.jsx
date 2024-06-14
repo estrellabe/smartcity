@@ -28,7 +28,7 @@ const Profile= () => {
                 setUser(response.data);
                 setLoading(false);
             } catch (err) {
-                setError('Failed to fetch user data');
+                setError('Error al obtener los datos del usuario');
                 setLoading(false);
             }
         };
@@ -65,7 +65,6 @@ const Profile= () => {
                     <CardTitle tag="h5">Perfil de Usuario</CardTitle>
                     <CardText><strong>Nombre:</strong> {user.nombre}</CardText>
                     <CardText><strong>Email:</strong> {user.email}</CardText>
-                    <CardText><strong>Google ID:</strong> {user.googleID}</CardText>
                 </CardBody>
             </Card>
         </div>

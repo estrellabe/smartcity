@@ -37,6 +37,7 @@ const Login = () => {
       var name= user.name;
       sessionStorage.setItem('email', email);
       sessionStorage.setItem('name', name);
+      sessionStorage.setItem('token', res.credential); //Guardamos el token en sessionStorage
       setIsLoggedIn(true); //Actualizamos el estado de sesión
       setOpenSnackbar(true); //Mostramos Snackbar
       setTimeout(() => { 
