@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import { Card, CardTitle, CardText, Media} from "reactstrap";
 import { GoogleLogin } from "@react-oauth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -11,9 +11,6 @@ import logo from "../img/logoReact.png";
 import Logout from "./Logout";
 import Atras from "./Atras";
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 var imgStyle = {
   width: "100%",
@@ -26,16 +23,11 @@ const Login = () => {
   const [loginMessage, setLoginMessage] = useState(null);
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false); //Estado de sesión
-
-
-  const [open, setOpen] = React.useState(false);
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
+  const [openSnackbar, setOpenSnackbar] = React.useState(false); //Estado de Snackbar
   
-    setOpen(false);
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   const onSuccess = async (res) => {
@@ -46,14 +38,13 @@ const Login = () => {
       sessionStorage.setItem('email', email);
       sessionStorage.setItem('name', name);
       setIsLoggedIn(true); //Actualizamos el estado de sesión
-      <Snackbar open={open} autoHideDuration={10000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success">
-          Has iniciado sesión
-        </Alert>
-      </Snackbar>
-      navigate('/dashboard'); //Redirigimos a la página de dashboard tras 5 segundos
-      
+      setOpenSnackbar(true); //Mostramos Snackbar
+      setTimeout(() => { 
+        setLoginMessage('¡Has iniciado sesión correctamente!');
+        navigate('/dashboard'); // Redirigimos al dashboard
+      }, 5000); // Tras 5 segundos
     } catch (error) {
+      setOpenSnackbar(true);
       setLoginMessage('Error al iniciar sesión');
       console.error('Login Error:', error);
     }
@@ -79,7 +70,13 @@ const Login = () => {
         <Media style={imgStyle} object src={logo} alt="Login" />
         <CardText>
           <GoogleOAuthProvider clientId={config.clientID}>
-            <GoogleLogin auto_select onSuccess={onSuccess} onError={onError} useOneTap />
+            {!isLoggedIn && <GoogleLogin auto_select onSuccess={onSuccess} onError={onError} useOneTap />}
+            <Snackbar open={openSnackbar} autoHideDuration={10000} onClose={handleCloseSnackbar}>
+              <Alert onClose={handleCloseSnackbar} severity={loginMessage?.includes('Error') ? "error" : "success"}>
+                ¡Has iniciado sesión correctamente!
+                {loginMessage}
+              </Alert>
+            </Snackbar>
           </GoogleOAuthProvider>
           {loginMessage && <p>{loginMessage}</p>}
         </CardText>
