@@ -1,81 +1,94 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 import axios from 'axios';
 
+// Iconos personalizados
+const iconoContenedor = new L.Icon({
+  iconUrl: 'https://www.flaticon.com/free-icon/garbage_7333496?term=container+waste+bin&page=1&position=10&origin=search&related_id=7333496',
+  iconAnchor: [15, 30],
+  popupAnchor: [0, -30],
+  shadowSize: [30, 30],
+  className: 'leaflet-container-icon'
+});
+
 const Mapa = () => {
-  const [datosContenedores, setDatosContenedores] = useState({ isLoading: false, error: false, data: [] });
-  const [datosPeatones, setDatosPeatones] = useState({ isLoading: false, error: false, data: [] });
+  const [datosContenedores, setDatosContenedores] = useState({ isLoading: false, error: null, data: [] });
   const [center, setCenter] = useState([40.416775, -3.703790]); // Coordenadas de Madrid como valor por defecto.
 
   useEffect(() => {
-    /* fetchMarkers() difiere de fetchData() de que el primero tiene un uso específico, para mapas, mientras que
-    el segundo es más general y se puede usar para cualquier tipo de petición*/
     const fetchMarkers = async () => {
       setDatosContenedores(prevState => ({ ...prevState, isLoading: true }));
-      setDatosPeatones(prevState => ({ ...prevState, isLoading: true }));
       try {
         const contenedoresResponse = await axios.get('http://localhost:5000/contenedores/all');
-        const peatonesResponse = await axios.get('http://localhost:5000/peatones/all');
         
-        const contenedores = contenedoresResponse.data.map(contenedor => [contenedor.LATITUD, contenedor.LONGITUD]);
-        const peatones = peatonesResponse.data.map(peaton => [peaton.LATITUD, peaton.LONGITUD]);
+        // Transformación de los datos para poder mapearlos
+        const contenedores = contenedoresResponse.data.map(contenedor => {
+          if (contenedor.LATITUD && contenedor.LONGITUD) {
+            return [
+              parseFloat(contenedor.LATITUD.toString().replace(',', '.')),
+              parseFloat(contenedor.LONGITUD.toString().replace(',', '.'))
+            ];
+          } else {
+            console.warn('Al contenedor le dalta una coordenada:', contenedor);
+            return null;
+          }
+        }).filter(Boolean);
 
-        setDatosContenedores({ isLoading: false, error: false, data: contenedores });
-        setDatosPeatones({ isLoading: false, error: false, data: peatones });
+        setDatosContenedores({ isLoading: false, error: null, data: contenedores });
         
         console.log('Datos de contenedores:', contenedoresResponse.data);
-        console.log('Datos de peatones:', peatonesResponse.data);
 
         if (contenedores.length > 0) {
           setCenter([contenedores[0][0], contenedores[0][1]]);
-        } else if (peatones.length > 0) {
-          setCenter([peatones[0][0], peatones[0][1]]);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
         setDatosContenedores({ isLoading: false, error: error.message, data: [] });
-        setDatosPeatones({ isLoading: false, error: error.message, data: [] });
       }
     };
     fetchMarkers();
   }, []);
 
-  if(!center){
-      return (
-        <div>
-          Cargando el mapa...
-        </div>
-      );
-    }
+  const contenedorMarkers = useMemo(() => {
+    return datosContenedores.data.map((pos, i) => (
+      <Marker position={pos} icon={iconoContenedor} key={`contenedor-${i}`}>
+        <Popup>
+          Contenedor<br />Lat: {pos[0]}<br />Lng: {pos[1]}
+        </Popup>
+      </Marker>
+    ));
+  }, [datosContenedores.data]);
 
+  if (datosContenedores.isLoading) {
     return (
       <div>
-        <h2>Mapa de contenedores y pasos de peatones</h2>
-        <MapContainer center={center} zoom={15} style={{ height: '500px', width: '100%' }}>
-          <TileLayer
-            url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-            attribution='&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors'
-          />
-          {datosContenedores.error && <div><span>Error: {datosContenedores.error}</span></div>}
-          {datosPeatones.error && <div><span>Error: {datosPeatones.error}</span></div>}
-          {datosContenedores.data.map((pos, i) => (
-            <Marker position={pos} key={`contenedor-${i}`}>
-              <Popup>
-                Contenedor<br />Lat: {pos[0]}<br />Lng: {pos[1]}
-              </Popup>
-            </Marker>
-          ))}
-          {datosPeatones.data.map((pos, i) => (
-            <Marker position={pos} key={`peaton-${i}`}>
-              <Popup>
-                Paso de Peatones<br />Lat: {pos[0]}<br />Lng: {pos[1]}
-              </Popup>
-            </Marker>
-          ))}
-        </MapContainer>
+        Cargando datos de los contenedores...
       </div>
     );
-  };
-  
-  export default Mapa;
+  }
+
+  if (datosContenedores.error) {
+    return (
+      <div>
+        {datosContenedores.error && <div>Error en contenedores: {datosContenedores.error}</div>}
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <h2>Mapa de contenedores y pasos de peatones</h2>
+      <MapContainer center={center} zoom={15} style={{ height: '500px', width: '100%' }}>
+        <TileLayer
+          url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+          attribution='&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors'
+        />
+        {contenedorMarkers}
+      </MapContainer>
+    </div>
+  );
+};
+
+export default Mapa;
