@@ -12,6 +12,7 @@ import Contenedores from "./datos/Contenedores";
 import Multas from "./datos/Multas";
 import Peatones from "./datos/Peatones";
 import '../App.css';
+import { MapaContainer } from './MapaContainer';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/multas" element={<Multas />} />
           <Route path="/peatones" element={<Peatones />} />
           <Route path="/censo" element={<Censo />} />
+          <Route path="/mapa" element={<MapaContainer />} />
         </Routes>
     </Router>
   );
