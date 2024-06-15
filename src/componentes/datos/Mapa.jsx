@@ -6,7 +6,7 @@ import axios from 'axios';
 
 // Iconos personalizados
 const iconoContenedor = new L.Icon({
-  iconUrl: 'https://www.flaticon.com/free-icon/garbage_7333496?term=container+waste+bin&page=1&position=10&origin=search&related_id=7333496',
+  iconUrl: '../img/wastebins.png',
   iconAnchor: [15, 30],
   popupAnchor: [0, -30],
   shadowSize: [30, 30],
