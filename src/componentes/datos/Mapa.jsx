@@ -4,6 +4,8 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import axios from 'axios';
 
+// NO SE VEN LOS ICONOS EN EL MAPA
+
 // Iconos personalizados
 const iconoContenedor = new L.Icon({
   iconUrl: '../img/wastebins.png',
