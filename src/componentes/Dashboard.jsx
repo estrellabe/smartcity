@@ -2,11 +2,8 @@ import React from 'react';
 import { Card, CardTitle, Button, Container, Row, Col } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import airQualityImage from '../img/airQuality.png';
-import bicycleImage from '../img/bycicle.png'; 
 import populationImage from '../img/population.png';
-import acousticPollutionImage from '../img/acousticPollution.png';
 import wasteBinsImage from '../img/wastebins.png';
-import penaltyImage from '../img/penalty.png';
 import Atras from './Atras';
 
 const Dashboard = () => {
@@ -37,10 +34,7 @@ const Dashboard = () => {
     const cardsData = [
         { title: 'Calidad del aire', image: airQualityImage, route: '/aire' },
         { title: 'Censo por distritos', image: populationImage, route: '/censo' },
-        { title: 'Mapa de contenedores', image: wasteBinsImage, route: '/mapa' },
-        { title: 'Disponibilidad de bicicletas', image: bicycleImage, route: '/bicicletas' },
-        { title: 'Contaminación Acústica', image: acousticPollutionImage, route: '/acustica' },
-        { title: 'Multas', image: penaltyImage, route: '/multas' },
+        { title: 'Mapa de bicicletas disponibles', image: wasteBinsImage, route: '/mapa' },
     ];
 
     return (

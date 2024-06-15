@@ -42,7 +42,7 @@ const Login = () => {
       setOpenSnackbar(true); //Mostramos Snackbar
       setTimeout(() => { 
         setLoginMessage('¡Has iniciado sesión correctamente!');
-        navigate('/profile'); // Redirigimos al perfil
+        navigate('/dashboard');
       }, 5000); // Tras 5 segundos
     } catch (error) {
       setOpenSnackbar(true);
