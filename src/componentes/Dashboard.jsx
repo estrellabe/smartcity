@@ -36,10 +36,10 @@ const Dashboard = () => {
 
     const cardsData = [
         { title: 'Calidad del aire', image: airQualityImage, route: '/aire' },
-        { title: 'Disponibilidad de bicicletas', image: bicycleImage, route: '/bicicletas' },
-        { title: 'Censo', image: populationImage, route: '/censo' },
-        { title: 'Contaminación Acústica', image: acousticPollutionImage, route: '/acustica' },
+        { title: 'Censo por distritos', image: populationImage, route: '/censo' },
         { title: 'Mapa de contenedores y peatones', image: wasteBinsImage, route: '/mapa' },
+        { title: 'Disponibilidad de bicicletas', image: bicycleImage, route: '/bicicletas' },
+        { title: 'Contaminación Acústica', image: acousticPollutionImage, route: '/acustica' },
         { title: 'Multas', image: penaltyImage, route: '/multas' },
     ];
 
