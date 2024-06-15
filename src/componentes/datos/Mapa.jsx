@@ -6,11 +6,12 @@ import axios from 'axios';
 
 // Iconos personalizados
 const iconoBici = new L.Icon({
-  iconUrl:"../../img/bike-icon.png",
-  iconAnchor: [15, 30],
-  popupAnchor: [0, -30],
-  shadowSize: [30, 30],
-  className: 'leaflet-container-icon'
+  iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
 });
 
 const Mapa = () => {
@@ -24,14 +25,14 @@ const Mapa = () => {
         const bicicletasResponse = await axios.get('http://localhost:5000/bicicletas/all');
         
         // Transformación de los datos para poder mapearlos
-        const bicicletas = bicicletasResponse.data.map(contenedor => {
-          if (contenedor.LATITUD && contenedor.LONGITUD) {
+        const bicicletas = bicicletasResponse.data.map(bicicleta => {
+          if (bicicleta.LATITUD && bicicleta.LONGITUD) {
             return [
-              parseFloat(contenedor.LATITUD.toString().replace(',', '.')),
-              parseFloat(contenedor.LONGITUD.toString().replace(',', '.'))
+              parseFloat(bicicleta.LATITUD.toString().replace(',', '.')),
+              parseFloat(bicicleta.LONGITUD.toString().replace(',', '.'))
             ];
           } else {
-            console.warn('A la bicicleta le falta una coordenada:', contenedor);
+            console.warn('A la bicicleta le falta una coordenada:', bicicleta);
             return null;
           }
         }).filter(Boolean);

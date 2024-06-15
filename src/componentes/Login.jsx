@@ -9,7 +9,6 @@ import { jwtDecode } from "jwt-decode";
 import config from "../Config";
 import logo from "../img/logoReact.png";
 import Logout from "./Logout";
-import Atras from "./Atras";
 
 
 var imgStyle = {
@@ -62,9 +61,6 @@ const Login = () => {
         <Logout />
       </div>
       )}
-      <div style={{ position: 'absolute', top: '10px', left: '10px' }}>
-        <Atras />
-      </div>
       <Card style={{ width: '300px', padding: '20px', textAlign: 'center' }}>
         <CardTitle tag="h4">Iniciar sesión</CardTitle>
         <CardText>City+ es una app basada en React</CardText>
