@@ -7,7 +7,6 @@ import populationImage from '../img/population.png';
 import acousticPollutionImage from '../img/acousticPollution.png';
 import wasteBinsImage from '../img/wastebins.png';
 import penaltyImage from '../img/penalty.png';
-import pedestrianImage from '../img/pedestrians.png';
 import Atras from './Atras';
 
 const Dashboard = () => {
@@ -40,9 +39,8 @@ const Dashboard = () => {
         { title: 'Disponibilidad de bicicletas', image: bicycleImage, route: '/bicicletas' },
         { title: 'Censo', image: populationImage, route: '/censo' },
         { title: 'Contaminación Acústica', image: acousticPollutionImage, route: '/acustica' },
-        { title: 'Contenedores', image: wasteBinsImage, route: '/contenedores' },
+        { title: 'Mapa de contenedores y peatones', image: wasteBinsImage, route: '/mapa' },
         { title: 'Multas', image: penaltyImage, route: '/multas' },
-        { title: 'Pasos de peatones', image: pedestrianImage, route: '/peatones' },
     ];
 
     return (

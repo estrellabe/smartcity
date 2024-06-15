@@ -8,11 +8,9 @@ import Aire from "./datos/Aire";
 import Bicicletas from "./datos/Bicicletas";
 import Censo from "./datos/Censo";
 import ContaminacionAcustica from "./datos/ContaminacionAcustica";
-import Contenedores from "./datos/Contenedores";
 import Multas from "./datos/Multas";
-import Peatones from "./datos/Peatones";
 import '../App.css';
-import { MapaContainer } from './MapaContainer';
+import Mapa from './datos/Mapa';
 
 function App() {
   return (
@@ -26,11 +24,9 @@ function App() {
           <Route path="/bicicletas" element={<Bicicletas />} />
           <Route path="/censo" element={<Censo />} />
           <Route path="/acustica" element={<ContaminacionAcustica />} />
-          <Route path="/contenedores" element={<Contenedores />} />
           <Route path="/multas" element={<Multas />} />
-          <Route path="/peatones" element={<Peatones />} />
           <Route path="/censo" element={<Censo />} />
-          <Route path="/mapa" element={<MapaContainer />} />
+          <Route path="/mapa" element={<Mapa />} />
         </Routes>
     </Router>
   );
