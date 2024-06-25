@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { Bar } from 'react-chartjs-2';
+import { Row, Col } from 'reactstrap';
 import axios from 'axios';
 import Atras from '../Atras';
+import Logout from '../Logout';
 
 // NOTA: SOLO SE ESTÁN CONSIDERANDO LOS DATOS DE LOS 15000 PRIMEROS REGISTROS
 
-const Censo = () => {
+const Censo = ({ onLogout }) => {
   const [censoData, setCensoData] = useState([]);
   const [error] = useState(null);
 
@@ -80,8 +82,13 @@ const Censo = () => {
   }), []);
 
   return (
-    <div> 
-      <Atras />
+      <div div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f8f9fa' }}> 
+        <Row>
+          <Col>
+              <Atras />
+              <Logout onLogout={onLogout}/>
+          </Col>
+      </Row>
       <div style={{textAlign:'center'}}>
       <h1 style={{ textAlign: 'center' }}>Censo</h1>
         <h4 style={{ textAlign: 'center' }}>Comparación entre hombres y mujeres, españoles y extranjeros por distrito</h4>

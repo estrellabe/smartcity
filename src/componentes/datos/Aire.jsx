@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import axios from 'axios';
 import { Chart, registerables } from 'chart.js';
+import { Row, Col } from 'reactstrap';
 import 'chartjs-adapter-date-fns';
 import Atras from '../Atras';
+import Logout from '../Logout';
 
 // Registrar todos los componentes de Chart.js, incluidas las escalas de tiempo
 Chart.register(...registerables);
 
-const Aire = () => {
+const Aire = ({ onLogout }) => {
   const [data, setData] = useState([]);
   const chartRef = useRef(null);
 
@@ -87,9 +89,14 @@ const Aire = () => {
 
   return (
     <div>
-      <Atras />
+      <Row>
+            <Col>
+                <Atras />
+                <Logout onLogout={onLogout}/>
+            </Col>
+      </Row>
       <h1 style={{ textAlign: 'center' }}>Calidad del Aire</h1>
-      <canvas id="aireChart" width="400" height="400"></canvas>
+      <canvas id="aireChart"></canvas>
     </div>
   );
 };

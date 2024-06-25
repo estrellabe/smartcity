@@ -10,7 +10,7 @@ const Atras = () => {
     };
 
     return (
-        <Button color="secondary" onClick={handleBack}>
+        <Button color="secondary" onClick={handleBack} style={{ position: 'absolute', top: '10px', left: '10px' }}>
             Atrás
         </Button>
     );

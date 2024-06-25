@@ -2,28 +2,21 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { Card, CardTitle, CardText, Media} from "reactstrap";
-import { GoogleLogin } from "@react-oauth/google";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
+import { Card, CardTitle, CardText, Media } from "reactstrap";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import {jwtDecode} from "jwt-decode"; 
 import config from "../Config";
 import logo from "../img/logoReact.png";
-import Logout from "./Logout";
 
-
-var imgStyle = {
+const imgStyle = {
   width: "100%",
   height: "100%",
 };
 
-
-
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [loginMessage, setLoginMessage] = useState(null);
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); //Estado de sesión
-  const [openSnackbar, setOpenSnackbar] = React.useState(false); //Estado de Snackbar
-  
+  const [openSnackbar, setOpenSnackbar] = useState(false); // Estado de Snackbar
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
@@ -32,15 +25,15 @@ const Login = () => {
   const onSuccess = async (res) => {
     try {
       const user = jwtDecode(res.credential);
-      var email= user.email;
-      var name= user.name;
+      const email = user.email;
+      const name = user.name;
       sessionStorage.setItem('email', email);
       sessionStorage.setItem('name', name);
-      sessionStorage.setItem('token', res.credential); //Guardamos el token en sessionStorage
-      setIsLoggedIn(true); //Actualizamos el estado de sesión
-      setOpenSnackbar(true); //Mostramos Snackbar
-      setTimeout(() => { 
+      sessionStorage.setItem('token', res.credential); // Guardamos el token en sessionStorage
+      setOpenSnackbar(true); // Mostramos Snackbar
+      setTimeout(() => {
         setLoginMessage('¡Has iniciado sesión correctamente!');
+        onLogin();
         navigate('/dashboard');
       }, 5000); // Tras 5 segundos
     } catch (error) {
@@ -52,22 +45,19 @@ const Login = () => {
 
   const onError = () => {
     console.log('[Login Failed]');
+    setOpenSnackbar(true);
+    setLoginMessage('Error al iniciar sesión');
   };
 
   return (
-    <div style={{ backgroundColor: "#f8f9fa", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-      {isLoggedIn && (
-      <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
-        <Logout />
-      </div>
-      )}
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f8f9fa' }}>
       <Card style={{ width: '300px', padding: '20px', textAlign: 'center' }}>
         <CardTitle tag="h4">Iniciar sesión</CardTitle>
         <CardText>City+ es una app basada en React</CardText>
         <Media style={imgStyle} object src={logo} alt="Login" />
         <CardText>
           <GoogleOAuthProvider clientId={config.clientID}>
-            {!isLoggedIn && <GoogleLogin auto_select onSuccess={onSuccess} onError={onError} useOneTap />}
+            <GoogleLogin onSuccess={onSuccess} onError={onError} />
             <Snackbar open={openSnackbar} autoHideDuration={10000} onClose={handleCloseSnackbar}>
               <Alert onClose={handleCloseSnackbar} severity={loginMessage?.includes('Error') ? "error" : "success"}>
                 ¡Has iniciado sesión correctamente!
@@ -75,7 +65,6 @@ const Login = () => {
               </Alert>
             </Snackbar>
           </GoogleOAuthProvider>
-          {loginMessage && <p>{loginMessage}</p>}
         </CardText>
       </Card>
     </div>

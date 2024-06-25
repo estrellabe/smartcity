@@ -1,24 +1,21 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "reactstrap";
 
-const Logout = () => {
-    const navigate = useNavigate();
+const Logout = ({onLogout}) => {
 
     const handleLogout = () => {
         // Eliminar el token de sesión
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('email');
         sessionStorage.removeItem('name');
-        // Redirigir a la página de inicio de sesión
-        navigate('/login');
+        // Mostrar una página con el mensaje "Has cerrado sesión" y un botón para volver a la página de inicio
+        onLogout();
     };
 
     return (
-        <Button color="danger" onClick={handleLogout}>
+        <Button color="danger" onClick={handleLogout} style={{ position: 'absolute', top: '10px', right: '10px' }}>
             Cerrar sesión
         </Button>
     );
 };
-
 export default Logout;

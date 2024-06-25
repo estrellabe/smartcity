@@ -1,10 +1,15 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import { Row, Col } from 'reactstrap';
 import L from 'leaflet';
 import axios from 'axios';
+import Atras from '../Atras';
+import Logout from '../Logout';
 
-// Iconos personalizados
+// Nota: tarda mucho en cargar los datos. Optimizar.
+
+// Icono personalizado
 const iconoBici = new L.Icon({
   iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -14,7 +19,7 @@ const iconoBici = new L.Icon({
   shadowSize: [41, 41]
 });
 
-const Mapa = () => {
+const Mapa = ({ onLogout }) => {
   const [datosBicis, setDatosBicicletas] = useState({ isLoading: false, error: null, data: [] });
   const [center, setCenter] = useState([40.416775, -3.703790]); // Coordenadas de Madrid como valor por defecto.
 
@@ -80,7 +85,13 @@ const Mapa = () => {
 
   return (
     <div>
-      <h2>Mapa de las bicicletas</h2>
+      <Row>
+        <Col>
+            <Atras />
+            <Logout onLogout={onLogout}/>
+        </Col>
+      </Row>
+      <h1 style={{ textAlign: 'center' }}>Mapa de bicicletas disponibles</h1>
       <MapContainer center={center} zoom={15} style={{ height: '500px', width: '100%' }}>
         <TileLayer
           url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
