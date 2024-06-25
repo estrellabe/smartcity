@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import axios from 'axios';
 import { Chart, registerables } from 'chart.js';
-import { Row, Col } from 'reactstrap';
 import 'chartjs-adapter-date-fns';
 import Atras from '../Atras';
 import Logout from '../Logout';
@@ -88,14 +87,14 @@ const Aire = ({ onLogout }) => {
   }, [chartData, options]);
 
   return (
-    <div>
-      <Row>
-            <Col>
-                <Atras />
-                <Logout onLogout={onLogout}/>
-            </Col>
-      </Row>
-      <h1 style={{ textAlign: 'center' }}>Calidad del Aire</h1>
+    <div style={{padding: '20px', position: 'relative' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', position: 'fixed', width: '100%', top:0, left: 0, backgroundColor: 'white', zIndex: 1000, padding: '10px 20 px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'}}>
+          <Atras />
+          <Logout onLogout={onLogout}/>
+      </div>
+      <h1 style={{ textAlign: 'center', marginTop: '70px' }}>
+        Calidad del Aire
+        </h1>
       <canvas id="aireChart"></canvas>
     </div>
   );

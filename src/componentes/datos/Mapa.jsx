@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import MarkerClusterGroup from 'react-leaflet-markercluster';
 import 'leaflet/dist/leaflet.css';
-import { Row, Col } from 'reactstrap';
 import L from 'leaflet';
 import axios from 'axios';
 import Atras from '../Atras';
@@ -84,20 +84,20 @@ const Mapa = ({ onLogout }) => {
   }
 
   return (
-    <div>
-      <Row>
-        <Col>
-            <Atras />
-            <Logout onLogout={onLogout}/>
-        </Col>
-      </Row>
-      <h1 style={{ textAlign: 'center' }}>Mapa de bicicletas disponibles</h1>
-      <MapContainer center={center} zoom={15} style={{ height: '500px', width: '100%' }}>
+    <div style={{padding: '20px', position: 'relative' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', position: 'fixed', width: '100%', top:0, left: 0, backgroundColor: 'white', zIndex: 1000, padding: '10px 20 px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'}}>
+          <Atras />
+          <Logout onLogout={onLogout}/>
+      </div>
+      <h1 style={{ textAlign: 'center', marginTop: '70px' }}>Mapa de bicicletas disponibles</h1>
+      <MapContainer center={center} zoom={15} style={{ height: '450px', width: '100%' }}>
         <TileLayer
           url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
           attribution='&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors'
         />
-        {biciMarkers}
+        <MarkerClusterGroup>
+          {biciMarkers}
+        </MarkerClusterGroup>
       </MapContainer>
     </div>
   );

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { Bar } from 'react-chartjs-2';
-import { Row, Col } from 'reactstrap';
 import axios from 'axios';
 import Atras from '../Atras';
 import Logout from '../Logout';
@@ -82,17 +81,15 @@ const Censo = ({ onLogout }) => {
   }), []);
 
   return (
-      <div div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f8f9fa' }}> 
-        <Row>
-          <Col>
-              <Atras />
-              <Logout onLogout={onLogout}/>
-          </Col>
-      </Row>
+    <div style={{padding: '20px', position: 'relative' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', position: 'fixed', width: '100%', top:0, left: 0, backgroundColor: 'white', zIndex: 1000, padding: '10px 20 px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)'}}>
+          <Atras />
+          <Logout onLogout={onLogout}/>
+      </div>
       <div style={{textAlign:'center'}}>
-      <h1 style={{ textAlign: 'center' }}>Censo</h1>
-        <h4 style={{ textAlign: 'center' }}>Comparación entre hombres y mujeres, españoles y extranjeros por distrito</h4>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <h1 style={{ textAlign: 'center' }}>Censo</h1>
+          <h4 style={{ textAlign: 'center' }}>Comparación entre hombres y mujeres, españoles y extranjeros por distrito</h4>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
       <div>
         <Bar data={chartData} options={options} />
       </div>
